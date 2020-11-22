@@ -1,0 +1,44 @@
+name: userCritiqs
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  http: ^0.12.2
+
+  flutter:
+    sdk: flutter
+   
+
+  cupertino_icons: ^0.1.3
+  font_awesome_flutter: ^8.8.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+
+  uses-material-design: true
+  assets:
+    - assets/personImage.jpg
+  fonts:
+  - family: Lato
+    fonts:
+        - asset: fonts/Lato-Regular.ttf
+  - family: Raleway
+    fonts: 
+        - asset: fonts/Raleway-Regular.ttf
+  - family: Lemonada
+    fonts: 
+        - asset: fonts/Lemonada-Regular.ttf
+
+
