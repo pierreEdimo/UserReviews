@@ -51,4 +51,15 @@ class ItemService {
       throw "can't get the Items";
     }
   }
+
+  Future<Item> fetchItembyId(int id) async {
+    Response response = await get(
+        'https://uservoice20200910121949.azurewebsites.net/api/Items/$id');
+
+    if (response.statusCode == 200) {
+      return Item.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load Item');
+    }
+  }
 }
