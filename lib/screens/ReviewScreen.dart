@@ -1,46 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:userCritiqs/Component/Widget.Review.dart';
+import 'package:userCritiqs/Component/Widget.Row.dart';
+import 'package:userCritiqs/controller/ItemService.dart';
 import 'package:userCritiqs/controller/ReviewService.dart';
+import 'package:userCritiqs/model/Item.dart';
 import 'package:userCritiqs/model/Review.dart';
 
 import 'package:userCritiqs/screens/CommentScreen.dart';
 
 class ReviewScreen extends StatefulWidget {
   final int itemId;
-  final String description;
+  final String itemName;
 
   ReviewScreen({
     @required this.itemId,
-    @required this.description,
+    @required this.itemName,
   });
 
   @override
   _ReviewScreenState createState() => _ReviewScreenState(
         itemId: itemId,
-        description: description,
+        itemName: itemName,
       );
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
   int itemId;
-  String description;
+  String itemName;
 
   _ReviewScreenState({
     @required this.itemId,
-    @required this.description,
+    @required this.itemName,
   });
   final ReviewService _reviewService = ReviewService();
+  final ItemService _itemService = ItemService();
   Future<List<Review>> _reviews;
   final TextEditingController _bodyController = TextEditingController();
+  Future<Item> _item;
 
   @override
   void initState() {
     super.initState();
     _fetchReviews();
+    _fecthItem();
   }
 
   _fetchReviews() {
     _reviews = _reviewService.getReviews(itemId);
+  }
+
+  _fecthItem() {
+    _item = _itemService.fetchItembyId(itemId);
   }
 
   Future<void> _loadReviews() async {
@@ -132,6 +142,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           children: [
             SafeArea(
               child: Container(
+                height: 60.0,
                 color: Colors.deepPurple,
                 padding: EdgeInsets.only(
                     left: 35.0, top: 10.0, bottom: 20.0, right: 35.0),
@@ -147,7 +158,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     Expanded(
                       child: Container(
                         child: Text(
-                          description,
+                          itemName,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.white,
@@ -160,50 +171,125 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
             ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        topRight: Radius.circular(10.0))),
-                child: FutureBuilder(
-                  future: _reviews,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Review>> snapshot) {
-                    if (snapshot.hasData) {
-                      List<Review> reviews = snapshot.data;
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: FutureBuilder(
+                          future: _item,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              Item item = snapshot.data;
 
-                      return ListView(
-                          padding: EdgeInsets.only(
-                              top: 20.0, right: 35.0, left: 35.0, bottom: 20.0),
-                          children: reviews
-                              .map((Review review) => InkWell(
-                                    onDoubleTap: () {
-                                      print("Hello World");
-                                    },
-                                    onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            CommentScreen(reviewId: review.id),
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Container(
+                                    height: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
                                       ),
-                                    ).then(
-                                      (_) => _loadReviews(),
+                                      image: DecorationImage(
+                                          image: NetworkImage(item.imageUrl),
+                                          fit: BoxFit.cover),
                                     ),
-                                    child: wReview(
-                                      context,
-                                      review.authorId,
-                                      review.body,
-                                      review.numberOfComments.toString(),
+                                  ),
+                                  SizedBox(height: 20.0),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 35.0, right: 35.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(item.description),
+                                        SizedBox(height: 20.0),
+                                        customRow(
+                                            "Release date:", item.releaseDate),
+                                        SizedBox(height: 20.0),
+                                        customRow("Genre:", item.genre),
+                                        SizedBox(height: 20.0),
+                                        customRow("Publisher:", item.publisher),
+                                        SizedBox(height: 20.0)
+                                      ],
                                     ),
-                                  ))
-                              .toList());
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
+                                  )
+                                ],
+                              );
+                            }
+                            return Center(child: Text(""));
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                        child: Text(
+                          "Reviews",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 22.0),
+                        ),
+                      ),
+                      Container(
+                        child: FutureBuilder(
+                          future: _reviews,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<Review>> snapshot) {
+                            if (snapshot.hasData) {
+                              List<Review> reviews = snapshot.data;
+
+                              return ListView(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  physics: ClampingScrollPhysics(),
+                                  padding: EdgeInsets.only(
+                                      top: 20.0,
+                                      right: 35.0,
+                                      left: 35.0,
+                                      bottom: 20.0),
+                                  children: reviews
+                                      .map((Review review) => InkWell(
+                                            onDoubleTap: () {
+                                              print("Hello World");
+                                            },
+                                            onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CommentScreen(
+                                                        reviewId: review.id),
+                                              ),
+                                            ).then(
+                                              (_) => _loadReviews(),
+                                            ),
+                                            child: wReview(
+                                              context,
+                                              review.authorId,
+                                              review.body,
+                                              review.numberOfComments
+                                                  .toString(),
+                                            ),
+                                          ))
+                                      .toList());
+                            }
+                            return Center(child: CircularProgressIndicator());
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
