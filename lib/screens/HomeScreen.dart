@@ -38,22 +38,23 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            height: 100,
-            color: Colors.deepPurple,
-            padding: EdgeInsets.only(
-              left: 35.0,
-              right: 35.0,
-            ),
+          SafeArea(
             child: Container(
-              margin: EdgeInsets.only(top: 30.0),
-              child: Center(
-                child: Text(
-                  "Home",
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+              height: 60.0,
+              color: Colors.deepPurple,
+              padding: EdgeInsets.only(
+                left: 35.0,
+                right: 35.0,
+              ),
+              child: Container(
+                child: Center(
+                  child: Text(
+                    "Home",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => ReviewScreen(
                                         itemId: item.id,
-                                        description: item.description,
+                                        itemName: item.name,
                                       ),
                                     ),
                                   ),

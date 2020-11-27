@@ -114,7 +114,7 @@ class _ItemSreenFromCategoryState extends State<ItemSreenFromCategory> {
                                         MaterialPageRoute(
                                           builder: (context) => ReviewScreen(
                                             itemId: item.id,
-                                            description: item.description,
+                                            itemName: item.name,
                                           ),
                                         ),
                                       ),

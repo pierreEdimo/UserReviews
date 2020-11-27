@@ -87,7 +87,7 @@ class _SearchPageState extends State<SearchPage> {
                                         MaterialPageRoute(
                                           builder: (context) => ReviewScreen(
                                             itemId: item.id,
-                                            description: item.description,
+                                            itemName: item.name,
                                           ),
                                         ),
                                       ),

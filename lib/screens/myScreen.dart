@@ -36,29 +36,30 @@ class _MyScreenState extends State<MyScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: 100,
-              color: Colors.deepPurple,
-              padding: EdgeInsets.only(left: 35.0, right: 35.0),
+            SafeArea(
               child: Container(
-                margin: EdgeInsets.only(top: 30.0),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "My Reviews",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.settings),
-                        color: Colors.white,
-                        onPressed: () => print("Hello World! "),
-                      )
-                    ],
+                height: 60.0,
+                color: Colors.deepPurple,
+                padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                child: Container(
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "My Reviews",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.settings),
+                          color: Colors.white,
+                          onPressed: () => print("Hello World! "),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

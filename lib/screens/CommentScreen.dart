@@ -107,35 +107,36 @@ class _CommentScreenState extends State<CommentScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: 100,
-              color: Colors.deepPurple,
-              padding: EdgeInsets.only(left: 35.0, right: 35.0),
+            SafeArea(
               child: Container(
-                margin: EdgeInsets.only(top: 30.0),
-                child: Center(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Text(
-                            "Comments",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                height: 60,
+                color: Colors.deepPurple,
+                padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                child: Container(
+                  child: Center(
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.keyboard_arrow_left,
+                            color: Colors.white,
                           ),
+                          onPressed: () => Navigator.of(context).pop(),
                         ),
-                      )
-                    ],
+                        Expanded(
+                          child: Container(
+                            child: Text(
+                              "Comments",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
