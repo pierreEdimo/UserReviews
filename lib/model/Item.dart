@@ -7,6 +7,9 @@ class Item {
   final String imageUrl;
   final String entryDate;
   final int numberOfReviews;
+  final String genre;
+  final String releaseDate;
+  final String publisher;
 
   Item(
       {this.authorId,
@@ -15,6 +18,9 @@ class Item {
       this.name,
       this.description,
       this.numberOfReviews,
+      this.publisher,
+      this.releaseDate,
+      this.genre,
       this.entryDate,
       this.imageUrl});
 
@@ -26,6 +32,9 @@ class Item {
         name: json['name'] as String,
         description: json['description'] as String,
         imageUrl: json['imageUrl'] as String,
+        genre: json['genre'] as String,
+        publisher: json['publisher'] as String,
+        releaseDate: json['releaseDate'] as String,
         numberOfReviews: json['numberOfReviews'] as int,
         entryDate: json['entryDate'] as String);
   }
