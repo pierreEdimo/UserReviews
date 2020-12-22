@@ -3,6 +3,8 @@ import 'package:userCritiqs/Component/Widget.Review.dart';
 import 'package:userCritiqs/controller/ReviewService.dart';
 import 'package:userCritiqs/model/Review.dart';
 import 'package:userCritiqs/screens/CommentScreen.dart';
+import 'package:userCritiqs/screens/LoginScreen.dart';
+import '../main.dart';
 
 class MyScreen extends StatefulWidget {
   @override
@@ -14,7 +16,8 @@ class _MyScreenState extends State<MyScreen> {
   Future<List<Review>> _reviews;
 
   _fetchReviews() {
-    _reviews = _reviewService.getReviewsFromAuthor("edimo");
+    _reviews = _reviewService
+        .getReviewsFromAuthor("beb9667f-ced1-4c43-b825-84b63c1a2002");
   }
 
   @override
@@ -29,6 +32,59 @@ class _MyScreenState extends State<MyScreen> {
     });
   }
 
+  void _logout(BuildContext context) async {
+    storage.delete(key: "jwt");
+    storage.delete(key: "userId");
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
+  void _showModalSheet() async {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Color(0xFF737373),
+            height: 130,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
+              ),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                      leading: Icon(
+                        Icons.info_outline_rounded,
+                        color: Colors.black,
+                        size: 18,
+                      ),
+                      title: Text(
+                        'About',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  ListTile(
+                    onTap: () => _logout(context),
+                    leading: Icon(
+                      Icons.logout,
+                      color: Colors.black,
+                      size: 18,
+                    ),
+                    title: Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +96,7 @@ class _MyScreenState extends State<MyScreen> {
               child: Container(
                 height: 60.0,
                 color: Colors.deepPurple,
-                padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Container(
                   child: Center(
                     child: Row(
@@ -56,7 +112,7 @@ class _MyScreenState extends State<MyScreen> {
                         IconButton(
                           icon: Icon(Icons.settings),
                           color: Colors.white,
-                          onPressed: () => print("Hello World! "),
+                          onPressed: () => _showModalSheet(),
                         )
                       ],
                     ),
@@ -83,11 +139,7 @@ class _MyScreenState extends State<MyScreen> {
                       return RefreshIndicator(
                         onRefresh: _loadReviews,
                         child: ListView(
-                            padding: EdgeInsets.only(
-                                top: 20.0,
-                                right: 35.0,
-                                left: 35.0,
-                                bottom: 20.0),
+                            padding: EdgeInsets.all(20.0),
                             children: reviews
                                 .map((Review review) => InkWell(
                                       onTap: () => Navigator.push(
