@@ -54,7 +54,7 @@ class _ItemSreenFromCategoryState extends State<ItemSreenFromCategory> {
             Container(
               height: 100,
               color: Colors.deepPurple,
-              padding: EdgeInsets.only(left: 35.0, right: 35.0),
+              padding: EdgeInsets.only(left: 20.0, right: 20.0),
               child: Container(
                 margin: EdgeInsets.only(top: 30.0),
                 child: Center(
@@ -102,11 +102,7 @@ class _ItemSreenFromCategoryState extends State<ItemSreenFromCategory> {
                       return RefreshIndicator(
                         onRefresh: _getItems,
                         child: ListView(
-                            padding: EdgeInsets.only(
-                                top: 20.0,
-                                right: 35.0,
-                                left: 35.0,
-                                bottom: 20.0),
+                            padding: EdgeInsets.all(20.0),
                             children: items
                                 .map((Item item) => InkWell(
                                       onTap: () => Navigator.push(

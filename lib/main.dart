@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:userCritiqs/controller/AuthService.dart';
 
 import 'package:userCritiqs/screens/ItemScreen.dart';
 import 'package:userCritiqs/screens/HomeScreen.dart';
+import 'package:userCritiqs/screens/LoginScreen.dart';
 import 'package:userCritiqs/screens/myScreen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final storage = FlutterSecureStorage();
+
+void displayDialog(context, title, text) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          text,
+          style: TextStyle(fontSize: 14.0),
+        ),
+      ),
+    );
 
 void main() {
   runApp(MyApp());
@@ -10,6 +30,13 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+  Future<String> get jwtOrEmpty async {
+    String token = await storage.read(key: "jwt");
+    if (token == null) return "";
+    return token;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +48,14 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BottomNavigation(),
+      home: FutureBuilder(
+          future: jwtOrEmpty,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(child: CircularProgressIndicator());
+            if (snapshot.data == "") return LoginScreen();
+            return BottomNavigation();
+          }),
     );
   }
 }
@@ -33,6 +67,14 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
+
+  final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    _authService.fetchSingleUser();
+  }
 
   final _widgetOptions = <Widget>[
     new HomeScreen(),

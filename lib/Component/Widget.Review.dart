@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget wReview(BuildContext context, String authorId, String body,
+Widget wReview(BuildContext context, String authorName, String body,
     String numberOfComments) {
   return Container(
     width: 500,
@@ -21,18 +21,37 @@ Widget wReview(BuildContext context, String authorId, String body,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage('assets/personImage.jpg'),
-          ),
-          title: Text(authorId),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              authorName,
+              style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+            ),
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.0),
+                color: Colors.redAccent.shade200,
+              ),
+              child: Center(
+                child: Text(
+                  "17",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         SizedBox(
           height: 15.0,
         ),
         Container(
-          padding:
-              EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0, bottom: 10.0),
+          padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
           child: Text(
             body,
             style: TextStyle(fontSize: 16.0),
@@ -41,16 +60,20 @@ Widget wReview(BuildContext context, String authorId, String body,
         SizedBox(
           height: 20.0,
         ),
-        Container(
-          padding: EdgeInsets.only(left: 25.0, right: 25.0),
-          child: Container(
-            child: Row(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Row(
               children: [
                 Icon(Icons.comment),
                 Text("  $numberOfComments comments".toString()),
               ],
             ),
-          ),
+            IconButton(
+              icon: Icon(Icons.more_horiz_outlined),
+              onPressed: () => print("Hello Comment ! "),
+            )
+          ],
         )
       ],
     ),

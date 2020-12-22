@@ -64,7 +64,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   left: 0.0,
                   right: 0.0,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 33.0, right: 33.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Container(
                       child: DecoratedBox(
                         decoration: BoxDecoration(
@@ -113,8 +113,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     return RefreshIndicator(
                       onRefresh: _getCategories,
                       child: ListView(
-                        padding: EdgeInsets.only(
-                            top: 20.0, right: 35.0, left: 35.0, bottom: 20.0),
+                        padding: EdgeInsets.all(20.0),
                         children: categories
                             .map(
                               (Category category) => InkWell(

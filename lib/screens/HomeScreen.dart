@@ -43,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 60.0,
               color: Colors.deepPurple,
               padding: EdgeInsets.only(
-                left: 35.0,
-                right: 35.0,
+                left: 20.0,
+                right: 20.0,
               ),
               child: Container(
                 child: Center(
@@ -79,8 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return RefreshIndicator(
                       onRefresh: _getItems,
                       child: ListView(
-                          padding: EdgeInsets.only(
-                              top: 20.0, right: 35.0, left: 35.0, bottom: 20.0),
+                          padding: EdgeInsets.all(20.0),
                           children: items
                               .map(
                                 (Item item) => InkWell(

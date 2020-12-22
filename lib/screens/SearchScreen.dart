@@ -32,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ),
-                padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: TextField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -74,11 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                               child: Text("Not Found"),
                             )
                           : ListView(
-                              padding: EdgeInsets.only(
-                                  left: 35.0,
-                                  top: 20.0,
-                                  bottom: 20.0,
-                                  right: 35.0),
+                              padding: EdgeInsets.all(20.0),
                               children: items
                                   .map(
                                     (Item item) => InkWell(

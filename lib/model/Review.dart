@@ -1,3 +1,5 @@
+import 'package:userCritiqs/model/RegisterModel.dart';
+
 class Review {
   final int id;
   final int note;
@@ -5,12 +7,14 @@ class Review {
   final String body;
   final String authorId;
   final int numberOfComments;
+  final RegisterModel author;
 
   Review(
       {this.body,
       this.id,
       this.note,
       this.itemId,
+      this.author,
       this.authorId,
       this.numberOfComments});
 
@@ -21,6 +25,7 @@ class Review {
         note: json['note'] as int,
         authorId: json['authorId'],
         numberOfComments: json['numberOfComments'] as int,
+        author: RegisterModel.fromJson(json['author']),
         itemId: json['itemId'] as int);
   }
 }

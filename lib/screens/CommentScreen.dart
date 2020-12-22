@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:userCritiqs/controller/CommentService.dart';
+import 'package:userCritiqs/main.dart';
 import 'package:userCritiqs/model/Comment.dart';
 
 class CommentScreen extends StatefulWidget {
@@ -42,8 +43,7 @@ class _CommentScreenState extends State<CommentScreen> {
             return Container(
               color: Color(0xFF737373),
               child: Container(
-                padding: EdgeInsets.only(
-                    top: 20.0, left: 35.0, right: 35.0, bottom: 20.0),
+                padding: EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -69,10 +69,13 @@ class _CommentScreenState extends State<CommentScreen> {
                       ),
                     ),
                     InkWell(
-                      onTap: () async => _commentService
-                          .addComment(_bodyController.text, "edimo", reviewId)
-                          .then((_) => Navigator.of(context).pop())
-                          .then((_) => _bodyController.text = ""),
+                      onTap: () async {
+                        var userId = await storage.read(key: "userId");
+                        _commentService
+                            .addComment(_bodyController.text, userId, reviewId)
+                            .then((_) => Navigator.of(context).pop())
+                            .then((_) => _bodyController.text = "");
+                      },
                       child: Container(
                         margin: EdgeInsets.only(top: 20.0),
                         padding: EdgeInsets.all(20.0),
@@ -111,7 +114,7 @@ class _CommentScreenState extends State<CommentScreen> {
               child: Container(
                 height: 60,
                 color: Colors.deepPurple,
-                padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Container(
                   child: Center(
                     child: Row(
@@ -156,8 +159,7 @@ class _CommentScreenState extends State<CommentScreen> {
                         List<Comment> comments = snapshot.data;
 
                         return ListView(
-                          padding: EdgeInsets.only(
-                              top: 20.0, right: 35.0, left: 35.0, bottom: 20.0),
+                          padding: EdgeInsets.all(20.0),
                           children: comments
                               .map(
                                 (Comment comment) => Container(
@@ -172,19 +174,26 @@ class _CommentScreenState extends State<CommentScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
                                     children: [
-                                      ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              'assets/personImage.jpg'),
-                                        ),
-                                        title: Text("edimo"),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            comment.author.userName,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 19),
+                                          ),
+                                          IconButton(
+                                              icon: Icon(
+                                                  Icons.more_horiz_outlined),
+                                              onPressed: () =>
+                                                  print("Hello More !"))
+                                        ],
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(
-                                            left: 25.0,
-                                            right: 25.0,
-                                            top: 10.0,
-                                            bottom: 10.0),
+                                            top: 20.0, bottom: 20.0),
                                         child: Text(
                                           comment.body,
                                           style: TextStyle(fontSize: 16.0),

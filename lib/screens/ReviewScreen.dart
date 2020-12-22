@@ -5,8 +5,10 @@ import 'package:userCritiqs/controller/ItemService.dart';
 import 'package:userCritiqs/controller/ReviewService.dart';
 import 'package:userCritiqs/model/Item.dart';
 import 'package:userCritiqs/model/Review.dart';
-
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:userCritiqs/screens/CommentScreen.dart';
+
+import '../main.dart';
 
 class ReviewScreen extends StatefulWidget {
   final int itemId;
@@ -68,8 +70,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           return Container(
             color: Color(0xFF737373),
             child: Container(
-              padding: EdgeInsets.only(
-                  top: 20.0, left: 35.0, right: 35.0, bottom: 20.0),
+              padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -97,12 +98,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: () async => _reviewService
-                        .addReview(_bodyController.text, "edimo", itemId)
-                        .then(
-                          (_) => Navigator.of(context).pop(),
-                        )
-                        .then((_) => _bodyController.text = ""),
+                    onTap: () async {
+                      var uid = await storage.read(key: "userId");
+                      _reviewService
+                          .addReview(_bodyController.text, uid, itemId)
+                          .then(
+                            (_) => Navigator.of(context).pop(),
+                          )
+                          .then((_) => _bodyController.text = "");
+                    },
                     child: Container(
                       margin: EdgeInsets.only(top: 20.0),
                       padding: EdgeInsets.all(20.0),
@@ -145,7 +149,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 height: 60.0,
                 color: Colors.deepPurple,
                 padding: EdgeInsets.only(
-                    left: 35.0, top: 10.0, bottom: 20.0, right: 35.0),
+                    left: 20.0, top: 10.0, bottom: 20.0, right: 20.0),
                 child: Row(
                   children: [
                     IconButton(
@@ -207,12 +211,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   SizedBox(height: 20.0),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                        left: 35.0, right: 35.0),
+                                        left: 20.0, right: 20.0),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(item.description),
+                                        Markdown(
+                                          data: item.description,
+                                          shrinkWrap: true,
+                                          physics: ClampingScrollPhysics(),
+                                          padding: EdgeInsets.all(0.0),
+                                        ),
                                         SizedBox(height: 20.0),
                                         customRow(
                                             "Release date:", item.releaseDate),
@@ -232,7 +241,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         child: Text(
                           "Reviews",
                           style: TextStyle(
@@ -251,16 +260,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   shrinkWrap: true,
                                   primary: false,
                                   physics: ClampingScrollPhysics(),
-                                  padding: EdgeInsets.only(
-                                      top: 20.0,
-                                      right: 35.0,
-                                      left: 35.0,
-                                      bottom: 20.0),
+                                  padding: EdgeInsets.all(20.0),
                                   children: reviews
                                       .map((Review review) => InkWell(
-                                            onDoubleTap: () {
-                                              print("Hello World");
-                                            },
                                             onTap: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -273,7 +275,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                             ),
                                             child: wReview(
                                               context,
-                                              review.authorId,
+                                              review.author.userName,
                                               review.body,
                                               review.numberOfComments
                                                   .toString(),
