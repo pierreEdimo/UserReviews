@@ -33,6 +33,27 @@ Widget wItem(String imageUrl, String name, String numberOfReviews) {
       ),
       Container(
         padding: EdgeInsets.all(20.0),
+        alignment: Alignment.topRight,
+        child: Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+            color: Colors.redAccent.shade200,
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          child: Center(
+            child: Text(
+              "18",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+              ),
+            ),
+          ),
+        ),
+      ),
+      Container(
+        padding: EdgeInsets.all(20.0),
         alignment: Alignment.bottomCenter,
         height: 230,
         width: 500,
