@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:userCritiqs/Component/Widget.Review.dart';
 import 'package:userCritiqs/Component/Widget.Row.dart';
 import 'package:userCritiqs/controller/ItemService.dart';
@@ -38,6 +39,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   final ItemService _itemService = ItemService();
   Future<List<Review>> _reviews;
   final TextEditingController _bodyController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   Future<Item> _item;
 
   @override
@@ -58,6 +60,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Future<void> _loadReviews() async {
     setState(() {
       _fetchReviews();
+    });
+  }
+
+  Future<void> _loadItem() async {
+    setState(() {
+      _fecthItem();
     });
   }
 
@@ -82,6 +90,27 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
+                    flex: 1,
+                    child: TextFormField(
+                      controller: _noteController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.only(left: 10.0, top: 20.0, right: 10.0),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(),
+                        ),
+                        hintText: "give a note ",
+                        hintStyle:
+                            TextStyle(fontSize: 16.0, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
                     child: TextField(
                       maxLines: 13,
                       controller: _bodyController,
@@ -100,12 +129,19 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   InkWell(
                     onTap: () async {
                       var uid = await storage.read(key: "userId");
-                      _reviewService
-                          .addReview(_bodyController.text, uid, itemId)
-                          .then(
-                            (_) => Navigator.of(context).pop(),
-                          )
-                          .then((_) => _bodyController.text = "");
+                      if (int.parse(_noteController.text) <= 20) {
+                        _reviewService
+                            .addReview(_bodyController.text, uid,
+                                int.parse(_noteController.text), itemId)
+                            .then(
+                              (_) => Navigator.of(context).pop(),
+                            )
+                            .then((_) => _noteController.text = "")
+                            .then((_) => _bodyController.text = "");
+                      } else {
+                        displayDialog(context, "Error",
+                            "the Note should be inferior than 20 ");
+                      }
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 20.0),
@@ -131,7 +167,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             ),
           );
         },
-      ).then((_) => _loadReviews());
+      ).then((_) => _loadReviews()).then((_) => _loadItem());
     }
 
     return Scaffold(
@@ -229,7 +265,51 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                         customRow("Genre:", item.genre),
                                         SizedBox(height: 20.0),
                                         customRow("Publisher:", item.publisher),
-                                        SizedBox(height: 20.0)
+                                        SizedBox(height: 20.0),
+                                        Container(
+                                            height: 100,
+                                            width: 500,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Note:",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Container(
+                                                  height: 60,
+                                                  width: 60,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors
+                                                        .redAccent.shade400,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      item.note.toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 28,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                        SizedBox(
+                                          height: 20.0,
+                                        ),
+                                        Text(
+                                          "Reviews & Critqs",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ],
                                     ),
                                   )
@@ -240,14 +320,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        child: Text(
-                          "Reviews",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 22.0),
-                        ),
-                      ),
                       Container(
                         child: FutureBuilder(
                           future: _reviews,
@@ -256,32 +328,46 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             if (snapshot.hasData) {
                               List<Review> reviews = snapshot.data;
 
-                              return ListView(
-                                  shrinkWrap: true,
-                                  primary: false,
-                                  physics: ClampingScrollPhysics(),
-                                  padding: EdgeInsets.all(20.0),
-                                  children: reviews
-                                      .map((Review review) => InkWell(
-                                            onTap: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CommentScreen(
-                                                        reviewId: review.id),
-                                              ),
-                                            ).then(
-                                              (_) => _loadReviews(),
-                                            ),
-                                            child: wReview(
-                                              context,
-                                              review.author.userName,
-                                              review.body,
-                                              review.numberOfComments
-                                                  .toString(),
-                                            ),
-                                          ))
-                                      .toList());
+                              return reviews.length < 1
+                                  ? Container(
+                                      height: 100,
+                                      width: 500,
+                                      padding: EdgeInsets.all(20.0),
+                                      child: Center(
+                                        child: Text(
+                                          "There are no reviews yet , please be the first to add one",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    )
+                                  : ListView(
+                                      shrinkWrap: true,
+                                      primary: false,
+                                      physics: ClampingScrollPhysics(),
+                                      padding: EdgeInsets.all(20.0),
+                                      children: reviews
+                                          .map((Review review) => InkWell(
+                                                onTap: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CommentScreen(
+                                                            reviewId:
+                                                                review.id),
+                                                  ),
+                                                ).then(
+                                                  (_) => _loadReviews(),
+                                                ),
+                                                child: wReview(
+                                                  context,
+                                                  review.author.userName,
+                                                  review.reviewNote.toString(),
+                                                  review.body,
+                                                  review.numberOfComments
+                                                      .toString(),
+                                                ),
+                                              ))
+                                          .toList());
                             }
                             return Center(child: CircularProgressIndicator());
                           },

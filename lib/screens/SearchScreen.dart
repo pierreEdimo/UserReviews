@@ -92,6 +92,7 @@ class _SearchPageState extends State<SearchPage> {
                                           child: wItem(
                                             item.imageUrl,
                                             item.name,
+                                            item.note.toString(),
                                             item.numberOfReviews.toString(),
                                           )),
                                     ),

@@ -154,6 +154,7 @@ class _MyScreenState extends State<MyScreen> {
                                       child: wReview(
                                           context,
                                           review.authorId,
+                                          review.reviewNote.toString(),
                                           review.body,
                                           review.numberOfComments.toString()),
                                     ))
