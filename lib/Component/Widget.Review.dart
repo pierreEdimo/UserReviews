@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget wReview(BuildContext context, String authorName, String body,
-    String numberOfComments) {
+Widget wReview(BuildContext context, String authorName, String reviewNote,
+    String body, String numberOfComments) {
   return Container(
     width: 500,
     margin: EdgeInsets.only(bottom: 20.0),
@@ -37,7 +37,7 @@ Widget wReview(BuildContext context, String authorName, String body,
               ),
               child: Center(
                 child: Text(
-                  "17",
+                  reviewNote,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 28,

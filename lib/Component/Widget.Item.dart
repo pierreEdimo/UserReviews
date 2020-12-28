@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget wItem(String imageUrl, String name, String numberOfReviews) {
+Widget wItem(
+    String imageUrl, String name, String note, String numberOfReviews) {
   return Stack(
     children: [
       Container(
@@ -43,7 +44,7 @@ Widget wItem(String imageUrl, String name, String numberOfReviews) {
           ),
           child: Center(
             child: Text(
-              "18",
+              note,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 28,
