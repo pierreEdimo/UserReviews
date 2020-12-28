@@ -7,6 +7,7 @@ class Review {
   final String body;
   final String authorId;
   final int numberOfComments;
+  final int reviewNote;
   final RegisterModel author;
 
   Review(
@@ -16,6 +17,7 @@ class Review {
       this.itemId,
       this.author,
       this.authorId,
+      this.reviewNote,
       this.numberOfComments});
 
   factory Review.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class Review {
         body: json['body'] as String,
         note: json['note'] as int,
         authorId: json['authorId'],
+        reviewNote: json['reviewNote'],
         numberOfComments: json['numberOfComments'] as int,
         author: RegisterModel.fromJson(json['author']),
         itemId: json['itemId'] as int);

@@ -10,6 +10,7 @@ class Item {
   final String genre;
   final String releaseDate;
   final String publisher;
+  final int note; 
 
   Item(
       {this.authorId,
@@ -20,6 +21,7 @@ class Item {
       this.numberOfReviews,
       this.publisher,
       this.releaseDate,
+      this.note, 
       this.genre,
       this.entryDate,
       this.imageUrl});
@@ -34,6 +36,7 @@ class Item {
         imageUrl: json['imageUrl'] as String,
         genre: json['genre'] as String,
         publisher: json['publisher'] as String,
+        note: json['note'] as int, 
         releaseDate: json['releaseDate'] as String,
         numberOfReviews: json['numberOfReviews'] as int,
         entryDate: json['entryDate'] as String);

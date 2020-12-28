@@ -91,11 +91,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                         itemName: item.name,
                                       ),
                                     ),
+                                  ).then(
+                                    (_) => _getItems(),
                                   ),
                                   child: Container(
-                                      margin: EdgeInsets.only(bottom: 20.0),
-                                      child: wItem(item.imageUrl, item.name,
-                                          item.numberOfReviews.toString())),
+                                    margin: EdgeInsets.only(bottom: 20.0),
+                                    child: wItem(
+                                      item.imageUrl,
+                                      item.name,
+                                      item.note.toString(),
+                                      item.numberOfReviews.toString(),
+                                    ),
+                                  ),
                                 ),
                               )
                               .toList()),

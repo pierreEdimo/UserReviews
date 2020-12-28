@@ -36,7 +36,8 @@ class ReviewService {
     }
   }
 
-  Future<Response> addReview(String body, String authorId, int itemId) {
+  Future<Response> addReview(
+      String body, String authorId, int note, int itemId) {
     return post(
       "https://uservoice20201218092231.azurewebsites.net/api/Reviews",
       headers: {
@@ -46,6 +47,7 @@ class ReviewService {
         {
           'body': body,
           'authorId': authorId,
+          'ReviewNote': note,
           'itemId': itemId,
         },
       ),
