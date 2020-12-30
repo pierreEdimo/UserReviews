@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:userCritiqs/model/LoginModel.dart';
-import 'package:userCritiqs/model/RegisterModel.dart';
+import 'package:userCritiqs/model/UserModel.dart';
 
 import '../main.dart';
 import 'package:http/http.dart';
@@ -36,6 +36,7 @@ class AuthService {
 
     if (response.statusCode == 200) {
       String jwt = response.body;
+      print(jwt);
       storage.write(key: "jwt", value: jwt);
     } else {
       throw "error";

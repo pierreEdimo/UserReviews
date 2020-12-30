@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:userCritiqs/controller/AuthService.dart';
 import 'package:userCritiqs/model/LoginModel.dart';
-import 'package:userCritiqs/model/RegisterModel.dart';
+import 'package:userCritiqs/model/UserModel.dart';
 
 import '../main.dart';
 
@@ -227,7 +227,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   userName: _usernameController.text,
                   passWord: _passwordController.text,
                   email: _emailController.text,
-                  photoUrl: null,
                 );
 
                 print(_usernameController.text);

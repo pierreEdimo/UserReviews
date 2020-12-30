@@ -101,30 +101,45 @@ class _ItemSreenFromCategoryState extends State<ItemSreenFromCategory> {
 
                       return RefreshIndicator(
                         onRefresh: _getItems,
-                        child: ListView(
-                            padding: EdgeInsets.all(20.0),
-                            children: items
-                                .map((Item item) => InkWell(
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ReviewScreen(
-                                            itemId: item.id,
-                                            itemName: item.name,
+                        child: items.length < 1
+                            ? Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Center(
+                                  child: Text(
+                                    "There are no items for now , please try again later ",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              )
+                            : ListView(
+                                padding: EdgeInsets.all(20.0),
+                                children: items
+                                    .map((Item item) => InkWell(
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReviewScreen(
+                                                itemId: item.id,
+                                                itemName: item.name,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 20.0),
-                                        child: wItem(
-                                          item.imageUrl,
-                                          item.name,
-                                          item.note.toString(),
-                                          item.numberOfReviews.toString(),
-                                        ),
-                                      ),
-                                    ))
-                                .toList()),
+                                          child: Container(
+                                            margin:
+                                                EdgeInsets.only(bottom: 20.0),
+                                            child: wItem(
+                                              item.imageUrl,
+                                              item.name,
+                                              item.note.toString(),
+                                              item.numberOfReviews.toString(),
+                                            ),
+                                          ),
+                                        ))
+                                    .toList()),
                       );
                     }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:userCritiqs/Component/Widget.Review.dart';
+import 'package:userCritiqs/controller/AuthService.dart';
 import 'package:userCritiqs/controller/ReviewService.dart';
+import 'package:userCritiqs/model/UserModel.dart';
 import 'package:userCritiqs/model/Review.dart';
 import 'package:userCritiqs/screens/CommentScreen.dart';
 import 'package:userCritiqs/screens/LoginScreen.dart';
@@ -13,17 +15,21 @@ class MyScreen extends StatefulWidget {
 
 class _MyScreenState extends State<MyScreen> {
   final ReviewService _reviewService = ReviewService();
+  final AuthService _authService = AuthService();
   Future<List<Review>> _reviews;
 
-  _fetchReviews() {
-    _reviews = _reviewService
-        .getReviewsFromAuthor("beb9667f-ced1-4c43-b825-84b63c1a2002");
+  String userId;
+
+  Future<List<Review>> _fetchReviews() async {
+    userId = await storage.read(key: "userId");
+    print('userId: $userId');
+    return _reviewService.getReviewsFromAuthor(userId);
   }
 
   @override
   void initState() {
     super.initState();
-    _fetchReviews();
+    _reviews = _fetchReviews();
   }
 
   Future<void> _loadReviews() async {
@@ -121,51 +127,56 @@ class _MyScreenState extends State<MyScreen> {
               ),
             ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
+                child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
                 ),
-                child: FutureBuilder(
-                  future: _reviews,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Review>> snapshot) {
-                    if (snapshot.hasData) {
-                      List<Review> reviews = snapshot.data;
+              ),
+              child: FutureBuilder(
+                future: _reviews,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<Review> reviews = snapshot.data;
 
-                      return RefreshIndicator(
-                        onRefresh: _loadReviews,
-                        child: ListView(
+                    return reviews.length < 1
+                        ? Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Center(
+                              child: Text(
+                                "you haven't reviewed an article yet , please look for something you like , review it , comment it , enjoy yourself",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          )
+                        : ListView(
+                            shrinkWrap: true,
+                            primary: true,
+                            physics: ClampingScrollPhysics(),
                             padding: EdgeInsets.all(20.0),
                             children: reviews
                                 .map((Review review) => InkWell(
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => CommentScreen(
-                                              reviewId: review.id),
-                                        ),
-                                      ).then(
-                                        (_) => _loadReviews(),
-                                      ),
                                       child: wReview(
-                                          context,
-                                          review.authorId,
-                                          review.reviewNote.toString(),
-                                          review.body,
-                                          review.numberOfComments.toString()),
+                                        context,
+                                        review.author.userName,
+                                        review.reviewNote.toString(),
+                                        review.body,
+                                        review.numberOfComments.toString(),
+                                      ),
                                     ))
-                                .toList()),
-                      );
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
+                                .toList(),
+                          );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
-            )
+            ))
           ],
         ),
       ),

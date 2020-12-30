@@ -1,4 +1,4 @@
-import 'package:userCritiqs/model/RegisterModel.dart';
+import 'package:userCritiqs/model/UserModel.dart';
 
 class Review {
   final int id;

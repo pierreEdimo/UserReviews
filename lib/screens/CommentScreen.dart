@@ -158,53 +158,70 @@ class _CommentScreenState extends State<CommentScreen> {
                       if (snapshot.hasData) {
                         List<Comment> comments = snapshot.data;
 
-                        return ListView(
-                          padding: EdgeInsets.all(20.0),
-                          children: comments
-                              .map(
-                                (Comment comment) => Container(
-                                  width: 500,
-                                  margin: EdgeInsets.only(bottom: 20.0),
-                                  padding: EdgeInsets.all(10.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade100,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            comment.author.userName,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 19),
-                                          ),
-                                          IconButton(
-                                              icon: Icon(
-                                                  Icons.more_horiz_outlined),
-                                              onPressed: () =>
-                                                  print("Hello More !"))
-                                        ],
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            top: 20.0, bottom: 20.0),
-                                        child: Text(
-                                          comment.body,
-                                          style: TextStyle(fontSize: 16.0),
-                                        ),
-                                      )
-                                    ],
+                        return comments.length < 1
+                            ? Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Center(
+                                  child: Text(
+                                    "there are no Comments yet , please be the first !",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
                                   ),
                                 ),
                               )
-                              .toList(),
-                        );
+                            : ListView(
+                                padding: EdgeInsets.all(20.0),
+                                children: comments
+                                    .map(
+                                      (Comment comment) => Container(
+                                        width: 500,
+                                        margin: EdgeInsets.only(bottom: 20.0),
+                                        padding: EdgeInsets.all(10.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade100,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  comment.author.userName,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 19),
+                                                ),
+                                                IconButton(
+                                                    icon: Icon(Icons
+                                                        .more_horiz_outlined),
+                                                    onPressed: () =>
+                                                        print("Hello More !"))
+                                              ],
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 20.0, bottom: 20.0),
+                                              child: Text(
+                                                comment.body,
+                                                style:
+                                                    TextStyle(fontSize: 16.0),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              );
                       }
 
                       return Center(
