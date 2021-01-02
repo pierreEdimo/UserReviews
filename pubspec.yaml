@@ -32,6 +32,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/personImage.jpg
+    - assets/logo.png
   fonts:
   - family: Lato
     fonts:
