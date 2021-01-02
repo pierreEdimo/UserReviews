@@ -101,21 +101,18 @@ class _BottomNavigationState extends State<BottomNavigation> {
               Icons.home,
               size: 30,
             ),
-            title: Text("Home"),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.search,
               size: 30,
             ),
-            title: Text("Items"),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
               size: 30,
             ),
-            title: Text("Me"),
           ),
         ],
         currentIndex: _selectedIndex,
