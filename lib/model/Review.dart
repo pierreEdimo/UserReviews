@@ -2,7 +2,6 @@ import 'package:userCritiqs/model/UserModel.dart';
 
 class Review {
   final int id;
-  final int note;
   final int itemId;
   final String body;
   final String authorId;
@@ -13,7 +12,6 @@ class Review {
   Review(
       {this.body,
       this.id,
-      this.note,
       this.itemId,
       this.author,
       this.authorId,
@@ -24,7 +22,6 @@ class Review {
     return Review(
         id: json['id'] as int,
         body: json['body'] as String,
-        note: json['note'] as int,
         authorId: json['authorId'],
         reviewNote: json['reviewNote'],
         numberOfComments: json['numberOfComments'] as int,
