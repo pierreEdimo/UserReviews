@@ -37,17 +37,19 @@ Widget wItem(
         alignment: Alignment.topRight,
         child: Container(
           height: 60,
-          width: 60,
+          width: 80,
           decoration: BoxDecoration(
-            color: Colors.redAccent.shade200,
-            borderRadius: BorderRadius.circular(50.0),
+            color: int.parse(note) < 10
+                ? Colors.redAccent.shade400
+                : Colors.greenAccent.shade400,
+            borderRadius: BorderRadius.circular(20.0),
           ),
           child: Center(
             child: Text(
-              note,
+              '$note/20',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 28,
+                fontSize: 22,
               ),
             ),
           ),
