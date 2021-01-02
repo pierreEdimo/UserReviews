@@ -108,9 +108,6 @@ class _ItemSreenFromCategoryState extends State<ItemSreenFromCategory> {
                                   child: Text(
                                     "There are no items for now , please try again later ",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               )
