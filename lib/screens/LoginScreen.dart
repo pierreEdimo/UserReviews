@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 var jwt = await _authService.loginUser(loginModel);
                 print(jwt);
                 if (jwt == 200) {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => BottomNavigation()));
@@ -229,13 +229,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   email: _emailController.text,
                 );
 
-                print(_usernameController.text);
-                print(_passwordController.text);
-                print(_emailController.text);
-
                 var res = await _authService.registerUser(userModel);
                 if (res == 200) {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => BottomNavigation()));
