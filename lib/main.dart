@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:userCritiqs/controller/AuthService.dart';
 
 import 'package:userCritiqs/screens/ItemScreen.dart';
@@ -39,6 +40,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -97,23 +102,23 @@ class _BottomNavigationState extends State<BottomNavigation> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: 30,
-            ),
-          ),
+              icon: Icon(
+                Icons.home,
+                size: 30,
+              ),
+              label: 'home'),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-              size: 30,
-            ),
-          ),
+              icon: Icon(
+                Icons.search,
+                size: 30,
+              ),
+              label: 'search'),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              size: 30,
-            ),
-          ),
+              icon: Icon(
+                Icons.person,
+                size: 30,
+              ),
+              label: 'me'),
         ],
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,

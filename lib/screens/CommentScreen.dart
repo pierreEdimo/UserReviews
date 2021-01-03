@@ -213,6 +213,10 @@ class _CommentScreenState extends State<CommentScreen> {
                     InkWell(
                       onTap: () async {
                         var userId = await storage.read(key: "userId");
+                        if (_bodyController.text.isEmpty) {
+                          displayDialog(context, "Error",
+                              "sorry you should fill the content box");
+                        } else {}
                         _commentService
                             .addComment(_bodyController.text, userId, reviewId)
                             .then((_) => Navigator.of(context).pop())

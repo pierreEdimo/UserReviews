@@ -82,12 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                         labelText: 'E-mail', border: OutlineInputBorder()),
                     keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value.isEmpty || !value.contains('@')) {
-                        return "Invalid E-mail";
-                      }
-                      return value;
-                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -98,12 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         labelText: 'Password', border: OutlineInputBorder()),
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    validator: (value) {
-                      if (value.isEmpty || value.length < 8) {
-                        return "Invalid PassWord";
-                      }
-                      return value;
-                    },
                   )
                 ],
               ),
@@ -130,16 +118,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 LoginModel loginModel = LoginModel(
                     email: _emailController.text,
                     passWord: _passwordController.text);
-                var jwt = await _authService.loginUser(loginModel);
-                print(jwt);
-                if (jwt == 200) {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BottomNavigation()));
+                if (_emailController.text.isEmpty ||
+                    !_emailController.text.contains('@')) {
+                  displayDialog(context, "Error", "Invalid Email");
+                } else if (_passwordController.text.isEmpty) {
+                  displayDialog(context, "Error", "Invalid password");
                 } else {
-                  displayDialog(context, "Error",
-                      "No account was found matching that username and password,please try again");
+                  var jwt = await _authService.loginUser(loginModel);
+
+                  if (jwt == 200) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavigation()));
+                  } else {
+                    displayDialog(context, "Error",
+                        "No account was found matching that username and password,please try again");
+                  }
                 }
               },
             ),
@@ -168,12 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                           labelText: 'E-mail', border: OutlineInputBorder()),
                       keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value.isEmpty || !value.contains('@')) {
-                          return "Invalid E-mail";
-                        }
-                        return value;
-                      },
                     ),
                     SizedBox(
                       height: 10,
@@ -184,12 +173,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           labelText: 'Password', border: OutlineInputBorder()),
                       obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
-                      validator: (value) {
-                        if (value.isEmpty || value.length < 8) {
-                          return "Invalid PassWord";
-                        }
-                        return value;
-                      },
                     ),
                     SizedBox(
                       height: 10,
@@ -229,15 +212,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   email: _emailController.text,
                 );
 
-                var res = await _authService.registerUser(userModel);
-                if (res == 200) {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BottomNavigation()));
-                } else if (res == 500) {
+                if (_emailController.text.isEmpty ||
+                    !_emailController.text.contains('@')) {
+                  displayDialog(context, "Error", "Invalid Email");
+                } else if (_usernameController.text.isEmpty) {
+                  displayDialog(context, "Error", "username is required");
+                } else if (_passwordController.text.isEmpty) {
+                  displayDialog(context, "Error", "Invalid password");
+                } else if (_passwordController.text.length < 8) {
                   displayDialog(context, "Error",
-                      "Something went wrong , possibles reasons are that your username or Email are already in use, your username should also contains number ,  your E-mail should contains @, and your password should be > 7 characters, please try again.");
+                      "your password should at least have 8 charaters");
+                } else {
+                  var res = await _authService.registerUser(userModel);
+                  if (res == 200) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavigation()));
+                  } else if (res == 500) {
+                    displayDialog(context, "Error",
+                        "Something went wrong , possibles reasons are that your username or Email are already in use, your username should also contains number ,  your E-mail should contains @, and your password should be > 7 characters, please try again.");
+                  }
                 }
               },
             ),

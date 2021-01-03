@@ -105,14 +105,19 @@ class _MyScreenState extends State<MyScreen> {
                 ),
                 InkWell(
                   onTap: () async {
-                    if (int.parse(_updateNoteController.text) <= 20) {
+                    if (int.parse(_updateNoteController.text) >= 20) {
+                      displayDialog(context, "Error",
+                          "the Note should be inferior than 20 ");
+                    } else if (_updateNoteController.text.isEmpty) {
+                      displayDialog(context, "Error", "You should add a note");
+                    } else if (_updateBodyController.text.isEmpty) {
+                      displayDialog(
+                          context, "Error", "you should fill the content box");
+                    } else {
                       _reviewService
                           .updateReview(content, note, id)
                           .then((_) => _loadReviews())
                           .then((_) => Navigator.of(context).pop());
-                    } else {
-                      displayDialog(context, "Error",
-                          "the Note should be inferior than 20 ");
                     }
                   },
                   child: Container(

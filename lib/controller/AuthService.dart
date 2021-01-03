@@ -18,6 +18,8 @@ class AuthService {
     if (response.statusCode == 200) {
       String jwt = response.body;
       storage.write(key: "jwt", value: jwt);
+    } else if (response.statusCode == 500) {
+      return response.statusCode;
     } else {
       throw "Error";
     }
@@ -38,6 +40,8 @@ class AuthService {
       String jwt = response.body;
       print(jwt);
       storage.write(key: "jwt", value: jwt);
+    } else if (response.statusCode == 500) {
+      return response.statusCode;
     } else {
       throw "error";
     }

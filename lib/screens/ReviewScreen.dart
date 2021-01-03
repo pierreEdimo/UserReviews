@@ -130,16 +130,22 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      if (int.parse(_updateNoteController.text) <= 20) {
+                      if (int.parse(_updateNoteController.text) >= 20) {
+                        displayDialog(context, "Error",
+                            "Note should be inferior or equal 20");
+                      } else if (_updateNoteController.text.isEmpty) {
+                        displayDialog(
+                            context, "Error", "You should add a note");
+                      } else if (_updateBodyController.text.isEmpty) {
+                        displayDialog(context, "Error",
+                            "you should fill the content box");
+                      } else {
                         _reviewService
                             .updateReview(_updateBodyController.text,
                                 int.parse(_updateNoteController.text), id)
                             .then((_) => _loadReviews())
                             .then((_) => _loadItem())
                             .then((_) => Navigator.of(context).pop());
-                      } else {
-                        displayDialog(context, "Error",
-                            "Note should be inferior or equal 20");
                       }
                     },
                     child: Container(
@@ -306,7 +312,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   InkWell(
                     onTap: () async {
                       var uid = await storage.read(key: "userId");
-                      if (int.parse(_noteController.text) <= 20) {
+                      if (int.parse(_noteController.text) >= 20) {
+                        displayDialog(context, "Error",
+                            "the Note should be inferior than 20 ");
+                      } else if (_noteController.text.isEmpty) {
+                        displayDialog(
+                            context, "Error", "you should give a note");
+                      } else if (_bodyController.text.isEmpty) {
+                        displayDialog(context, "Error",
+                            "you should fill the content box");
+                      } else {
                         _reviewService
                             .addReview(_bodyController.text, uid,
                                 int.parse(_noteController.text), itemId)
@@ -315,9 +330,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             )
                             .then((_) => _noteController.text = "")
                             .then((_) => _bodyController.text = "");
-                      } else {
-                        displayDialog(context, "Error",
-                            "the Note should be inferior than 20 ");
                       }
                     },
                     child: Container(
@@ -466,7 +478,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                           height: 20.0,
                                         ),
                                         Text(
-                                          "Reviews & Critqs",
+                                          "Reviews & Critiqs",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),

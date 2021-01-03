@@ -8,7 +8,7 @@ import '../main.dart';
 class ReviewService {
   Future<List<Review>> getReviews(int itemId) async {
     Response response = await get(
-        'https://uservoice20201218092231.azurewebsites.net/api/Reviews?itemId=$itemId');
+        'https://uservoice20201218092231.azurewebsites.net/api/Reviews?itemId=$itemId&&sortOrder=desc');
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
@@ -52,7 +52,7 @@ class ReviewService {
 
   Future<List<Review>> getReviewsFromAuthor(String authorId) async {
     Response response = await get(
-        'https://uservoice20201218092231.azurewebsites.net/api/Reviews/GetReviewFromAuthor?authorId=$authorId');
+        'https://uservoice20201218092231.azurewebsites.net/api/Reviews/GetReviewFromAuthor?authorId=$authorId&&sortOrder=desc');
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);

@@ -6,7 +6,7 @@ import 'package:userCritiqs/model/Item.dart';
 class ItemService {
   Future<List<Item>> getItems() async {
     Response response = await get(
-        "https://uservoice20201218092231.azurewebsites.net/api/Items");
+        "https://uservoice20201218092231.azurewebsites.net/api/Items?sortBy=Name&&sortOrder=asc");
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
@@ -22,7 +22,7 @@ class ItemService {
 
   Future<List<Item>> getItemsFromCategory(int categoryId) async {
     Response response = await get(
-        "https://uservoice20201218092231.azurewebsites.net/api/Items/GetitemFromCategory?categoryId=$categoryId");
+        "https://uservoice20201218092231.azurewebsites.net/api/Items/GetitemFromCategory?categoryId=$categoryId&&sortBy=Name&&sortOrder=asc");
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
@@ -38,7 +38,7 @@ class ItemService {
 
   Future<List<Item>> searchItems(String name) async {
     Response response = await get(
-        "https://uservoice20201218092231.azurewebsites.net/api/Items?name=$name");
+        "https://uservoice20201218092231.azurewebsites.net/api/Items?name=$name&&sortBy=Name&&sortOrder=asc");
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);

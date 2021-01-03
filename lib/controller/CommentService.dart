@@ -51,7 +51,7 @@ class CommentService {
 
   Future<List<Comment>> getComments(int reviewId) async {
     Response response = await get(
-        'https://uservoice20201218092231.azurewebsites.net/api/Comments?reviewId=$reviewId');
+        'https://uservoice20201218092231.azurewebsites.net/api/Comments?reviewId=$reviewId&&sortOrder=desc');
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
