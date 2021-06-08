@@ -15,24 +15,25 @@ this can be a video game, a tv show , a movie , or a comic Book.
 
 
 ## General Information
-This application has been created because i wanted to learn how to store datas localy on my application 
-and i also wanted to further understand state management with provider
+I created this application after i was reading IGN. I wanted to create an application 
+where only users could rate a specific medium like a movie, a tv show or a manga.
 
 ## Technologies Used
 - Flutter - version 2.2.1 - free, the sdk to develop a cross-platform application
-- Hive - a lightweight NoSql database to store key value
+- Asp.net core 3.1 - a c# Framework to develop Restful Api
 
 
 
 ## Features
-- Create a new List 
-- Edit the created list
-- delete the created list
-- Create task inside a list
-- edit tasks
-- check  when task is completed
-- check is task is important
-- delete task
+- review an item 
+- search an item 
+- edit a review  
+- delete the created review 
+- read the reviews from other users
+- login 
+- logup
+- logout
+- search item by category
 ## Illustrations
 
 
@@ -48,10 +49,10 @@ you need to clone the repository.
 ```
 
 # Clone this repository
-$ git clone https://github.com/pierreEdimo/Erledigt.git
+$ git clone https://github.com/pierreEdimo/UserReviews.git
 
 # Go into the repository
-$ cd erledigt
+$ cd userReviews
 
 # Install dependencies
 $ flutter pub get
@@ -66,7 +67,7 @@ Project is: _in progress_
 
 ## To Do
 
-- Add local Notifications 
+- Add forgot password
 - Add darkmode
 
 
