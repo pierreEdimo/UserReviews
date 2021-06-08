@@ -35,7 +35,9 @@ where only users could rate a specific medium like a movie, a tv show or a manga
 - logout
 - search item by category
 ## Illustrations
-
+![](https://github.com/pierreEdimo/UserReviews/blob/master/image/userreview1.PNG)
+![](https://github.com/pierreEdimo/UserReviews/blob/master/image/userreview.PNG)
+![](https://github.com/pierreEdimo/UserReviews/blob/master/image/userreview2.PNG)
 
 ## Setup
 this project has not been released yet. In order to test it, 
